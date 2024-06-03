@@ -135,16 +135,20 @@ RUN mkdir -p /home/$NB_USER/usecases/
 RUN mkdir -p /home/$NB_USER/elyra/
 RUN mkdir -p /home/$NB_USER/data
 
-COPY ./scripts/startup.sh /startup.sh
-COPY ./scripts/get_notebook.py /get_notebook.py
-COPY ./scripts/galaxy_script_job.py /home/$NB_USER/.ipython/profile_default/startup/00-load.py
-COPY ./scripts/ipython-profile.py /home/$NB_USER/.ipython/profile_default/startup/01-load.py
-COPY ./config/jupyter_notebook_config.py /home/$NB_USER/.jupyter/
+COPY ./startup.sh /startup.sh
+COPY ./get_notebook.py /get_notebook.py
+
+COPY ./galaxy_script_job.py /home/$NB_USER/.ipython/profile_default/startup/00-load.py
+COPY ./ipython-profile.py /home/$NB_USER/.ipython/profile_default/startup/01-load.py
+COPY ./jupyter_notebook_config.py /home/$NB_USER/.jupyter/
+
+COPY ./*.ipynb /home/$NB_USER/
+
 COPY ./notebooks/*.ipynb /home/$NB_USER/notebooks/
 COPY ./usecases/*.ipynb /home/$NB_USER/usecases/
 COPY ./elyra/*.* /home/$NB_USER/elyra/
-COPY ./data/*.tsv /home/$NB_USER/data/
 
+COPY ./data/*.tsv /home/$NB_USER/data/
 
 ENV DEBUG=false \
     GALAXY_WEB_PORT=10000 \
